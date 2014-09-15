@@ -9,4 +9,5 @@ Gem::Specification.new do |s|
   s.files       = ["lib/ruby_swift.rb"]
   s.homepage    = 'http://github.com/buntine/ruby-swift'
   s.license     = 'MIT'
+  s.add_runtime_dependency 'savon'
 end
