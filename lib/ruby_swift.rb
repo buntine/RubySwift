@@ -27,6 +27,30 @@ class RubySwift
     soap_request("add_group_member", {email: email, group_name: group_name})
   end
 
+  def remove_group_member(email, group_name)
+    soap_request("remove_group_member", {email: email, group_name: group_name})
+  end
+
+  def read_persons(group_name)
+    soap_request("read_persons", {group_name: group_name})
+  end
+
+  def remove_group(group_name)
+    soap_request("remove_group", {group_name: group_name})
+  end
+
+  def remove_person(email)
+    soap_request("remove_person", {email: email})
+  end
+
+  def update_person(old_email, fields)
+    soap_request("update_person", {old_email: old_email}.merge(fields))
+  end
+
+  def write_group(group_name)
+    soap_request("write_group", {group_name: group_name})
+  end
+
  private
 
   # Performs a SOAP request.
