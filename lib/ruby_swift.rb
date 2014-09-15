@@ -11,6 +11,10 @@ class RubySwift
                              convert_request_keys_to: :none)
   end
 
+  def read_or_write_person(fields)
+    # TODO: Implement. ([find and update] or [create] and then return)
+  end
+
   def read_person(email)
     soap_request("read_person", {email: email})
   end
