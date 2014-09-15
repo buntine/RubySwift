@@ -15,10 +15,22 @@ class RubySwift
     soap_request("read_person", {email: email})
   end
 
+  def write_person(fields)
+    soap_request("write_person", fields)
+  end
+
+  def read_groups
+    soap_request("read_groups")
+  end
+
+  def add_group_member(email, group_name)
+    soap_request("add_group_member", {email: email, group_name: group_name})
+  end
+
  private
 
   # Performs a SOAP request.
-  def soap_request(operation, data)
+  def soap_request(operation, data=nil)
     response = @client.call(operation, xml: request_body(operation, data))
 
     tidy_response(response.body)
@@ -32,25 +44,15 @@ class RubySwift
   end
 
   def hash_to_soap(data)
-    data.map do |k, v|
-      "<item><key xsi:type=\"xsd:string\">#{k}</key><value xsi:type=\"xsd:string\">#{v}</value></item>"
-    end.join
+    if data
+      data.map do |k, v|
+        "<item><key xsi:type=\"xsd:string\">#{k}</key><value xsi:type=\"xsd:string\">#{v}</value></item>"
+      end.join
+    end
   end
 
   # Tidies up the response that Swift gives us.
   def tidy_response(response)
-    base = response.to_a[0][1][:return]
-
-    if base.is_a?(Hash)
-      transform_hash(base)
-    else
-      base
-    end
-  end
-
-  def transform_hash(data)
-    Hash[
-      data[:item].map { |h| [h[:key], h[:value]] }
-    ]
+    response.to_a[0][1][:return]
   end
 end
