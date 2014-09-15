@@ -12,7 +12,7 @@ class RubySwift
   end
 
   def read_person(email)
-    soap_request("read_person", {:email => email})
+    soap_request("read_person", {email: email})
   end
 
  private
@@ -20,7 +20,7 @@ class RubySwift
   def soap_request(operation, data)
     response = @client.call(operation, xml: request_body(operation, data))
 
-    response.body
+    tidy_response(response.body)
   end
 
   def request_body(operation, data)
@@ -28,6 +28,22 @@ class RubySwift
   end
 
   def hash_to_soap(data)
-    "<item><key xsi:type=\"xsd:string\">email</key><value xsi:type=\"xsd:string\">amir_izwan7@hotmail.com</value></item>"
+    data.map do |k, v|
+      "<item><key xsi:type=\"xsd:string\">#{k}</key><value xsi:type=\"xsd:string\">#{v}</value></item>"
+    end.join
+  end
+
+  def tidy_response(response)
+    base = response.to_a[0][1][:return]
+
+    if base.is_a?(Hash)
+      transform_hash(base)
+    else
+      base
+    end
+  end
+
+  def transform_hash(data)
+    data
   end
 end
