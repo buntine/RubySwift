@@ -19,9 +19,9 @@ USAGE
 -----
   Initialize the connection:
 
-    ```ruby
-    swift = RubySwift.new("API_PASSWORD")
-    ```
+  ```ruby
+  swift = RubySwift.new("API_PASSWORD")
+  ```
 
   Does a person exist?
 
