@@ -16,7 +16,7 @@ class RubySwift
   end
 
   def write_or_update_person(fields)
-    if person_exists?(field[:email])
+    if person_exists?(fields[:email])
       update_person(fields[:email], fields.reject { |k,v| k == :email})     
     else
       write_person(fields)
@@ -56,7 +56,7 @@ class RubySwift
   end
 
   def update_person(old_email, fields)
-    soap_request("update_person", {old_email: old_email}.merge(fields))
+    soap_request("update_person", {email_old: old_email}.merge(fields))
   end
 
   def write_group(group_name)
