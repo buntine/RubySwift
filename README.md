@@ -3,7 +3,7 @@ RubySwift
 
 A ruby wrapper of the [Swift Digital Suite Mail House API](https://suite.swiftdigital.com.au/login).
 
-This is currently a relatively crude wrapper and does not tidy responses from Swift a lot.
+This is currently a relatively crude wrapper and does not tidy responses from Swift a lot. Contributions are welcome.
 
 INSTALLATION
 ------------
@@ -99,3 +99,4 @@ TODO
 ----
   * Tidy up responses (Hashie?)
   * Return true/false instead of "0" for write actions
+  * Allow custom fields in write/update
