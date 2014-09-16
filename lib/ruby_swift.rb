@@ -11,8 +11,16 @@ class RubySwift
                              convert_request_keys_to: :none)
   end
 
-  def read_or_write_person(fields)
-    # TODO: Implement. ([find and update] or [create] and then return)
+  def person_exists?(email)
+    read_person(email).is_a?(Hash)
+  end
+
+  def write_or_update_person(fields)
+    if person_exists?(field[:email])
+      update_person(fields[:email], fields.reject { |k,v| k == :email})     
+    else
+      write_person(fields)
+    end
   end
 
   def read_person(email)
