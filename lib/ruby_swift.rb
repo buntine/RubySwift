@@ -2,12 +2,12 @@ class RubySwift
 
   require "savon"
 
-  def initialize(password)
-    HTTPI.adapter = :net_http 
+  def initialize(password, namespace="ns1", http_adapter=:net_http)
+    HTTPI.adapter = http_adapter 
 
     @password = password
     @client   = Savon.client(endpoint: "http://suite.peoplelogic.com.au/server/includes/apis/soap.php",
-                             namespace: "ns1",
+                             namespace: namespace,
                              convert_request_keys_to: :none)
   end
 
