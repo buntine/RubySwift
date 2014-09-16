@@ -1,7 +1,7 @@
 RubySwift
 =========
 
-A ruby wrapper of the [Swift Digital Suite Mail House API](https://suite.swiftdigital.com.au).
+A ruby wrapper of the [Swift Digital Suite Mail House API](https://suite.swiftdigital.com.au/login).
 
 This is currently a relatively crude wrapper and does not tidy responses from Swift a lot.
 
