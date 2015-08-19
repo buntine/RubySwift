@@ -74,7 +74,7 @@ class RubySwift
 
   # Generates a raw XML SOAP request document.
   # I need to do it this way because the Swift SOAP server expects a particularly weird XML
-  # format that SAvon does not naturally produce.
+  # format that Savon does not naturally produce.
   def request_body(operation, data)
     "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"urn:pl\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:ns2=\"http://xml.apache.org/xml-soap\" xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\" SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"><SOAP-ENV:Body><ns1:#{operation}><param0 xsi:type=\"xsd:string\">#{@password}</param0><param1 xsi:type=\"ns2:Map\">#{hash_to_soap(data)}</param1></ns1:#{operation}></SOAP-ENV:Body></SOAP-ENV:Envelope>"
   end
