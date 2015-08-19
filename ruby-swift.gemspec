@@ -1,15 +1,15 @@
 Gem::Specification.new do |s|
 
   s.name        = "ruby-swift"
-  s.version     = "0.1.2"
-  s.date        = "2014-09-16"
+  s.version     = "0.1.3"
+  s.date        = "2015-08-16"
 
   s.summary     = "A ruby wrapper of the Swift Digital Suite API."
   s.description = "A ruby wrapper of the Swift Digital Suite Mail House API (https://suite.swiftdigital.com.au)."
 
   s.authors     = ["Andrew Buntine"]
-  s.email       = "bunts@hhd.com.au"
-  s.homepage    = "http://github.com/buntine/ruby-swift"
+  s.email       = "info@bunts.io"
+  s.homepage    = "http://github.com/buntine/RubySwift"
 
   s.files       = Dir.glob("{lib}/**/*") + %w(LICENSE README.md)
   s.license     = "MIT"
