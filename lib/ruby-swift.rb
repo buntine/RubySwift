@@ -42,51 +42,35 @@ class RubySwift
   end
 
   def add_group_member(email, group_name)
-    soap_response = soap_request("add_group_member", {email: email, group_name: group_name})
-    success = Proc.new { read_person(email) }
-    return_response(soap_response, success)
+    return_response(soap_request("add_group_member", {email: email, group_name: group_name}))
   end
 
   def remove_group_member(email, group_name)
-    soap_response = soap_request("remove_group_member", {email: email, group_name: group_name})
-    success = Proc.new { read_person(email) }
-    return_response(soap_response, success)
+    return_response(soap_request("remove_group_member", {email: email, group_name: group_name}))
   end
 
   def read_persons(group_name)
-    soap_response = soap_request("read_persons", {group_name: group_name})
-    success = Proc.new {
-      response = []
-      soap_response[:item].each do |person|
-        response << convert_to_person(person)
+    return_response(soap_request("read_persons", {group_name: group_name})) do |sr|
+      sr[:item].map do |person|
+        convert_to_person(person)
       end
-      response
-    }
-    return_response(soap_response, success)
+    end
   end
 
   def remove_group(group_name)
-    soap_response = soap_request("remove_group", {group_name: group_name})
-    success = true
-    return_response(soap_response, success)
+    return_response(soap_request("remove_group", {group_name: group_name}))
   end
 
   def remove_person(email)
-    soap_response = soap_request("remove_person", {group_name: group_name})
-    success = true
-    return_response(soap_response, success)
+    return_response(soap_request("remove_person", {group_name: group_name}))
   end
 
   def update_person(old_email, fields)
-    soap_response = soap_request("update_person", {email_old: old_email}.merge(fields))
-    success = Proc.new { read_person(fields[:email]) }
-    return_response(soap_response, success)
+    return_response(soap_request("update_person", {email_old: old_email}.merge(fields)))
   end
 
   def write_group(group_name)
-    soap_response = soap_request("write_group", {group_name: group_name})
-    success = group_name
-    return_response(soap_response, success)
+    return_response(soap_request("write_group", {group_name: group_name}))
   end
 
  private
