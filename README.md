@@ -23,11 +23,13 @@ USAGE
 swift = RubySwift.new("API_PASSWORD")
 ```
 
-  Does a person exist?
+## Helpers:
 
 ```ruby
-swift.person_exists?("you@example.com") # -> {:status => 0, :response => true}
+swift.person_exists?("you@example.com") # -> true
 ```
+
+## API methods:
 
   Read a person:
 
