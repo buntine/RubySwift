@@ -12,7 +12,7 @@ class RubySwift
   end
 
   def person_exists?(email)
-    read_person(email).is_a?(Hash)
+    read_person(email)[:status] == 0
   end
 
   def write_or_update_person(fields)
