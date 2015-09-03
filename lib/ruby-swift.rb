@@ -24,43 +24,69 @@ class RubySwift
   end
 
   def read_person(email)
-    soap_request("read_person", {email: email})
+    return_response(soap_request("read_person", {email: email})) do |sr|
+      convert_to_person(sr)
+    end
   end
 
   def write_person(fields)
-    soap_request("write_person", fields)
+    return_response(soap_request("write_person", fields))
   end
 
   def read_groups
-    soap_request("read_groups")
+    return_response(soap_request("read_groups")) do |sr|
+      sr[:item].map do |group|
+        group[:item][:value]
+      end
+    end
   end
 
   def add_group_member(email, group_name)
-    soap_request("add_group_member", {email: email, group_name: group_name})
+    soap_response = soap_request("add_group_member", {email: email, group_name: group_name})
+    success = Proc.new { read_person(email) }
+    return_response(soap_response, success)
   end
 
   def remove_group_member(email, group_name)
-    soap_request("remove_group_member", {email: email, group_name: group_name})
+    soap_response = soap_request("remove_group_member", {email: email, group_name: group_name})
+    success = Proc.new { read_person(email) }
+    return_response(soap_response, success)
   end
 
   def read_persons(group_name)
-    soap_request("read_persons", {group_name: group_name})
+    soap_response = soap_request("read_persons", {group_name: group_name})
+    success = Proc.new {
+      response = []
+      soap_response[:item].each do |person|
+        response << convert_to_person(person)
+      end
+      response
+    }
+    return_response(soap_response, success)
   end
 
   def remove_group(group_name)
-    soap_request("remove_group", {group_name: group_name})
+    soap_response = soap_request("remove_group", {group_name: group_name})
+    success = true
+    return_response(soap_response, success)
   end
 
   def remove_person(email)
-    soap_request("remove_person", {email: email})
+    soap_response = soap_request("remove_person", {group_name: group_name})
+    success = true
+    return_response(soap_response, success)
   end
 
   def update_person(old_email, fields)
-    soap_request("update_person", {email_old: old_email}.merge(fields))
+    soap_response = soap_request("update_person", {email_old: old_email}.merge(fields))
+    success = Proc.new { read_person(fields[:email]) }
+    return_response(soap_response, success)
   end
 
   def write_group(group_name)
-    soap_request("write_group", {group_name: group_name})
+    soap_response = soap_request("write_group", {group_name: group_name})
+    success = group_name
+    return_response(soap_response, success)
   end
 
  private
@@ -90,5 +116,24 @@ class RubySwift
   # Tidies up the response that Swift gives us.
   def tidy_response(response)
     response.to_a[0][1][:return]
+  end
+
+  def convert_to_person(soap_response)
+    Hash[*soap_response[:item].map { |line|
+      [line[:key].to_sym, (line[:value].is_a? Hash) ? nil : line[:value]]
+    }.flatten]
+  end
+
+  def return_response(soap_response, &block)
+    status = soap_response.to_s.to_i
+    resp = if status == 0
+      if block_given?
+        yield soap_response
+      else
+        true
+      end
+    end
+
+    return {:status => status, :response => resp}
   end
 end
