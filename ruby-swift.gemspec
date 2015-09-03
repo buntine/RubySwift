@@ -1,13 +1,13 @@
 Gem::Specification.new do |s|
 
   s.name        = "ruby-swift"
-  s.version     = "0.1.3"
-  s.date        = "2015-08-16"
+  s.version     = "1.0.0"
+  s.date        = "2015-09-03"
 
   s.summary     = "A ruby wrapper of the Swift Digital Suite API."
   s.description = "A ruby wrapper of the Swift Digital Suite Mail House API (https://suite.swiftdigital.com.au)."
 
-  s.authors     = ["Andrew Buntine"]
+  s.authors     = ["Andrew Buntine", "Philip Castiglione"]
   s.email       = "info@bunts.io"
   s.homepage    = "http://github.com/buntine/RubySwift"
 

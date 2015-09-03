@@ -12,7 +12,7 @@ class RubySwift
   end
 
   def person_exists?(email)
-    read_person(email).is_a?(Hash)
+    read_person(email)[:status] == 0
   end
 
   def write_or_update_person(fields)
@@ -24,43 +24,53 @@ class RubySwift
   end
 
   def read_person(email)
-    soap_request("read_person", {email: email})
+    return_response(soap_request("read_person", {email: email})) do |sr|
+      convert_to_person(sr)
+    end
   end
 
   def write_person(fields)
-    soap_request("write_person", fields)
+    return_response(soap_request("write_person", fields))
   end
 
   def read_groups
-    soap_request("read_groups")
+    return_response(soap_request("read_groups")) do |sr|
+      sr[:item].map do |group|
+        group[:item][:value]
+      end
+    end
   end
 
   def add_group_member(email, group_name)
-    soap_request("add_group_member", {email: email, group_name: group_name})
+    return_response(soap_request("add_group_member", {email: email, group_name: group_name}))
   end
 
   def remove_group_member(email, group_name)
-    soap_request("remove_group_member", {email: email, group_name: group_name})
+    return_response(soap_request("remove_group_member", {email: email, group_name: group_name}))
   end
 
   def read_persons(group_name)
-    soap_request("read_persons", {group_name: group_name})
+    return_response(soap_request("read_persons", {group_name: group_name})) do |sr|
+      sr[:item].map do |person|
+        convert_to_person(person)
+      end
+    end
   end
 
   def remove_group(group_name)
-    soap_request("remove_group", {group_name: group_name})
+    return_response(soap_request("remove_group", {group_name: group_name}))
   end
 
   def remove_person(email)
-    soap_request("remove_person", {email: email})
+    return_response(soap_request("remove_person", {group_name: group_name}))
   end
 
   def update_person(old_email, fields)
-    soap_request("update_person", {email_old: old_email}.merge(fields))
+    return_response(soap_request("update_person", {email_old: old_email}.merge(fields)))
   end
 
   def write_group(group_name)
-    soap_request("write_group", {group_name: group_name})
+    return_response(soap_request("write_group", {group_name: group_name}))
   end
 
  private
@@ -90,5 +100,24 @@ class RubySwift
   # Tidies up the response that Swift gives us.
   def tidy_response(response)
     response.to_a[0][1][:return]
+  end
+
+  def convert_to_person(soap_response)
+    Hash[*soap_response[:item].map { |line|
+      [line[:key].to_sym, (line[:value].is_a? Hash) ? nil : line[:value]]
+    }.flatten]
+  end
+
+  def return_response(soap_response, &block)
+    status = soap_response.to_s.to_i
+    resp = if status == 0
+      if block_given?
+        yield soap_response
+      else
+        true
+      end
+    end
+
+    return {:status => status, :response => resp}
   end
 end

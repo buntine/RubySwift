@@ -26,77 +26,75 @@ swift = RubySwift.new("API_PASSWORD")
   Does a person exist?
 
 ```ruby
-swift.person_exists?("you@example.com") # -> true
+swift.person_exists?("you@example.com") # -> {:status => 0, :response => true}
 ```
 
   Read a person:
 
 ```ruby
-person = swift.read_person("you@example.com")
+person = swift.read_person("you@example.com") # -> {:status => 0, :response => {...}}
 ```
 
   Add someone to a mail group:
 
 ```ruby
-swift.add_group_member("you@example.com", "Group Name") # -> "0"
+swift.add_group_member("you@example.com", "Group Name") # -> {:status => 0, :response => true}
 ```
 
   Remove someone from a mail group:
 
 ```ruby
-swift.remove_group_member("you@example.com", "Group Name") # -> "0"
+swift.remove_group_member("you@example.com", "Group Name") # -> {:status => 0, :response => true} 
 ```
 
   Create a person:
 
 ```ruby
-swift.write_person(email: "me@example.com", first_name: "Dennis", last_name: "Ritchie") # -> "0"
+swift.write_person(email: "me@example.com", first_name: "Dennis", last_name: "Ritchie") # -> {:status => 0, :response => true}
 ```
 
   Update person:
 
 ```ruby
-swift.update_person(email: "you@example.com", first_name: "Donald", last_name: "Knuth") # -> "0"
+swift.update_person(email: "you@example.com", first_name: "Donald", last_name: "Knuth") # -> {:status => 0, :response => true}
 ```
 
   Create or update existing person:
 
 ```ruby
-swift.write_or_update_person(email: "me@example.com", first_name: "Dennis", last_name: "Ritchie") # -> "0"
+swift.write_or_update_person(email: "me@example.com", first_name: "Dennis", last_name: "Ritchie") # -> {:status => 0, :response => true}
 ```
 
   Create a group:
 
 ```ruby
-swift.write_group("Group name") # -> "0"
+swift.write_group("Group name") # -> {:status => 0, :response => true}
 ```
 
   Read all groups:
 
 ```ruby
-groups = swift.read_groups
+groups = swift.read_groups # -> {:status => 0, :response => ["group1", "group2", ...]}
 ```
 
   Read all members of a group:
 
 ```ruby
-people = swift.read_persons("Group Name")
+people = swift.read_persons("Group Name") # -> {:status => 0, :response => [{...}, ...]}
 ```
 
   Remove a group:
 
 ```ruby
-swift.remove_group("Group Name") # -> "0"
+swift.remove_group("Group Name") # -> {:status => 0, :response => true}
 ```
 
   Remove a person:
 
 ```ruby
-swift.remove_person("you@example.com") # -> "0"
+swift.remove_person("you@example.com") # -> {:status => 0, :response => true}
 ```
 
 TODO
 ----
-  * Tidy up responses (Hashie?)
-  * Return true/false instead of "0" for write actions
   * Allow custom fields in write/update
