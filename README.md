@@ -5,6 +5,8 @@ A ruby wrapper of the [Swift Digital Suite Mail House API](https://suite.swiftdi
 
 This is currently a relatively crude wrapper and does not tidy responses from Swift a lot. Contributions are welcome.
 
+*Version 1.0.0 introduced breaking changes on the way the wrapper returns responses.*
+
 INSTALLATION
 ------------
   You can install the library via Rubygems:
