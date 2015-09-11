@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
 
   s.name        = "ruby-swift"
-  s.version     = "1.0.1"`
+  s.version     = "1.0.1"
   s.date        = "2015-09-11"
 
   s.summary     = "A ruby wrapper of the Swift Digital Suite API."
