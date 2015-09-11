@@ -62,7 +62,7 @@ class RubySwift
   end
 
   def remove_person(email)
-    return_response(soap_request("remove_person", {group_name: group_name}))
+    return_response(soap_request("remove_person", {email: email}))
   end
 
   def update_person(old_email, fields)
